@@ -93,7 +93,7 @@ public class Vector2 {
             Vector2 tmp = new Vector2(0, 0);
             return tmp;}
         }
-    public double phi(Vector2 v){
+    public static double phi(Vector2 v){
         return Math.asin(v.y/v.len());
     }
 
