@@ -17,11 +17,11 @@ public class Sphere {
 
     public  Sphere(){
         r = 50;
-        pos = new Vector2(500, 200);
+        pos = new Vector2(100, 200);
         orientationVector = new Vector2(1,0);
         v = new Vector2(0,0);
         a = new Vector2(0,0);
-        w = 0;
+        w = 0.01;
         m = 100;
         J = 10;
         phi = 0;
