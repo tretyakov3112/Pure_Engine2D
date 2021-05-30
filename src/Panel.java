@@ -30,6 +30,7 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         long time1 = System.currentTimeMillis();
         float dt =  (time1-time) ;
         world.update(dt/1000);
+        //world.moveWalls();
         //System.out.println(dt/1000);
         time = time1;
 

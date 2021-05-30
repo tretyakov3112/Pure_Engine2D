@@ -21,7 +21,14 @@ public class World {
         }*/
         //Wall wall = new Wall(new Point2(100,600), new Point2(1000,600), 0.5);
 
-        testWall = new Wall(new Vector2(0, 700), new Vector2(2000, 1000), 0.5);
+        testWall = new Wall(new Vector2(0, 700), new Vector2(3000, 1000), 0.5);
+    }
+
+    public void moveWalls(){
+        double dx = sphere.xPos-sphere.pos.x;
+        testWall.pos1.x += dx;
+        testWall.pos2.x += dx;
+        sphere.pos.x = sphere.xPos;
     }
 
     public int findWall() {
@@ -38,7 +45,7 @@ public class World {
         if (intersection != null) {
             System.out.println(intersection.toString());
             Wall wall = testWall;
-            Vector2 wallVector = new Vector2(wall.pos2.x-wall.pos1.x, wall.pos2.y-wall.pos1.y);
+            Vector2 wallVector = new Vector2(wall.pos2.x-wall.pos1.x, wall.pos2.y-wall.pos1.y).norm();
             double A = 10*(wall.k*Math.cos(Vector2.phi(wallVector))-Math.sin(Vector2.phi(wallVector)));
             Vector2 a = new Vector2(A*Math.cos(Vector2.phi(wallVector)), A*Math.sin(Vector2.phi(wallVector)));
 
@@ -52,16 +59,16 @@ public class World {
                 //sphere.v.plus(Vector2.mult(a, dt));
             } else {
                 sphere.phi = sphere.phi+sphere.w*dt;
-                sphere.v.rotate(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
-                sphere.pos.plus(Vector2.mult(sphere.v, dt).sum(Vector2.mult(g, dt*dt)));
                 System.out.println(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
+                sphere.v.rotate(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
+                sphere.pos.plus(Vector2.mult(sphere.v, dt));
                 //sphere.v.plus(Vector2.mult(a, dt));
             }
         } else {
             //sphere.pos.y = sphere.pos.y - 0.001 * g.y * dt * dt;
             sphere.v.plus(Vector2.mult(g, dt));
             sphere.phi = sphere.phi+sphere.w*dt;
-            sphere.pos.plus(Vector2.mult(sphere.v, dt).sum(Vector2.mult(g, dt*dt)));
+            sphere.pos.plus(Vector2.mult(sphere.v, dt));
             //System.out.println("Nope");
         }
         sphere.update();

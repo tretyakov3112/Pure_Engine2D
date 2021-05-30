@@ -14,10 +14,11 @@ public class Sphere {
     double m;
     double J;
     double phi;
+    double xPos = 500;
 
     public  Sphere(){
         r = 50;
-        pos = new Vector2(100, 200);
+        pos = new Vector2(xPos, 200);
         orientationVector = new Vector2(1,0);
         v = new Vector2(0,0);
         a = new Vector2(0,0);
