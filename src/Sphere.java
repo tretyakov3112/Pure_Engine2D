@@ -13,7 +13,7 @@ public class Sphere {
     double w;
     double m;
     double J;
-    double phi;
+    double phi;//угол orientationVector с горизонталью
     double xPos = 500;
 
     public  Sphere(){
