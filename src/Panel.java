@@ -34,9 +34,11 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         time = time1;
 
         world.sphere.draw(g);
-        for (int i = 0; i < 99; i++) {
-            world.walls[i].draw(g);
-        }
+        world.testWall.draw(g);
+//        for (int i = 0; i < 99; i++) {
+//            world.walls[i].draw(g);
+//        }
+
 
     }
 

@@ -1,9 +1,5 @@
-import java.text.DecimalFormat;
-import lombok.Getter;
-import lombok.Setter;
+import java.awt.*;
 
-
-@Getter @Setter
 public class Vector2 {
     public double x;
     public double y;
@@ -86,15 +82,22 @@ public class Vector2 {
         v.rotate(a);
         return v;
     }
-    public Vector2 ort(){
-        if (len()!=0){
+    public Vector2 ort() {
+        if (len()!=0) {
             Vector2 tmp = new Vector2(-y/len(),x/len());
-            return tmp;} else {
+            return tmp;
+        } else {
             Vector2 tmp = new Vector2(0, 0);
-            return tmp;}
+            return tmp;
         }
+    }
+
     public static double phi(Vector2 v){
         return Math.asin(v.y/v.len());
+    }
+
+    public static Vector2 segmentVector(Vector2 pos1, Vector2 pos2) {
+        return new Vector2(pos2.x - pos1.x, pos2.y - pos1.y);
     }
 
     public int getQuarte(){
