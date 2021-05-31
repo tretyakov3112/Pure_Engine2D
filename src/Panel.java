@@ -30,15 +30,15 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         long time1 = System.currentTimeMillis();
         float dt =  (time1-time) ;
         world.update(dt/1000);
-        //world.moveWalls();
+        world.moveWalls();
         //System.out.println(dt/1000);
         time = time1;
 
         world.sphere.draw(g);
-        world.testWall.draw(g);
-//        for (int i = 0; i < 99; i++) {
-//            world.walls[i].draw(g);
-//        }
+        //world.testWall.draw(g);
+        for (int i = 0; i < world.wallCount-1; i++) {
+            world.walls[i].draw(g);
+        }
 
 
     }
@@ -74,6 +74,22 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED) {
+            if (e.getKeyChar() == 'w') {
+                //System.out.println(e.getKeyChar());
+                world.sphere.w += 0.01;
+            }
+            if (e.getKeyChar() == 's') {
+                world.sphere.w -= 0.01;
+            }
+            if (e.getKeyChar() == ' ') {
+                System.out.println(e.getKeyChar());
+                world.sphere.v.y += -200;
+            }
+            if (e.getKeyChar() == 'q') {
+
+            }
+
+
         }
         return false;
     }

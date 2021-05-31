@@ -127,7 +127,7 @@ public class Vector2 {
     }
 
     public String toString(){
-        return "("+String.format("%.2f",x)+","+String.format("%.2f",y)+")";
+        return "("+(int) x+","+(int) y+")";
 
 
     }

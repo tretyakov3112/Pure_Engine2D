@@ -17,12 +17,12 @@ public class Sphere {
     double xPos = 500;
 
     public  Sphere(){
-        r = 50;
+        r = 25;
         pos = new Vector2(xPos, 500);
         orientationVector = new Vector2(1,0);
         v = new Vector2(0,0);
         a = new Vector2(0,0);
-        w = 0.05;
+        w = 0.0;
         m = 100;
         J = 0.5*m*r*r;
         phi = 0;
@@ -48,6 +48,36 @@ public class Sphere {
             return false;}
         }*/
     public Vector2 checkCollision(Wall wall){
+
+
+            Vector2 wallVector = Vector2.segmentVector(wall.pos1, wall.pos2);
+            Vector2 sphereToWallStartVector = Vector2.segmentVector(wall.pos1, pos);
+            Vector2 sphereToWallStartVector2 = Vector2.segmentVector(wall.pos2, pos);
+            if (sphereToWallStartVector.len()<=r || sphereToWallStartVector2.len()<=r){
+                return sphereToWallStartVector;
+            }
+
+
+
+
+            double t = Vector2.DotProduct(wallVector, sphereToWallStartVector) / Vector2.DotProduct(wallVector, wallVector);
+            if (t < 0 || t > 1) {
+                return null;
+            }
+
+            Vector2 intersectionVector = wallVector.mult(t);
+            intersectionVector.plus(wall.pos1);
+
+            Vector2 projectionFromSphere = Vector2.segmentVector(pos, intersectionVector);
+            if (projectionFromSphere.len() <= r) {
+                return intersectionVector;
+            } else {
+                return null;
+            }
+
+    }
+    /*public Vector2 checkCollision1(Wall wall){
+
         Vector2 wallVector = Vector2.segmentVector(wall.pos1, wall.pos2);
         Vector2 sphereToWallStartVector = Vector2.segmentVector(wall.pos1, pos);
 
@@ -61,15 +91,17 @@ public class Sphere {
 
         Vector2 projectionFromSphere = Vector2.segmentVector(pos, intersectionVector);
         if (projectionFromSphere.len() <= r) {
-            return intersectionVector;
+            return wallVector;
         } else {
             return null;
         }
-    }
+
+    }*/
 
 
     public void update(){
-        orientationVector.rotate(phi);
+        //orientationVector.rotate(phi);
+        orientationVector = v.norm();
 
     }
 
