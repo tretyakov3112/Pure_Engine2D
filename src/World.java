@@ -58,9 +58,18 @@ public class World {
                 sphere.pos.plus(Vector2.mult(sphere.v, dt).sum(Vector2.mult(a, dt*dt)));
                 //sphere.v.plus(Vector2.mult(a, dt));
             } else {//если удар
-                sphere.phi = sphere.phi+sphere.w*dt;
+                //sphere.phi = sphere.phi+sphere.w*dt;
+                Vector2 sphereToWallStartVector = Vector2.segmentVector(wall.pos1, sphere.pos);
+                double t = Vector2.DotProduct(wallVector, sphereToWallStartVector) / Vector2.DotProduct(wallVector, wallVector);
+                Vector2 intersectionVector = wallVector.mult(t);
+                intersectionVector.plus(wall.pos1);
+                Vector2 projectionFromSphere = Vector2.segmentVector(sphere.pos, intersectionVector);
+                sphere.w = (-Math.abs(Vector2.DotProduct(wallVector, sphere.v)/sphere.v.len()) + 0.5*sphere.w*sphere.r)/(1.5*sphere.r);
+                sphere.v.x = -(-Math.abs(Vector2.DotProduct(wallVector, sphere.v)/wallVector.len()) + 0.5*sphere.w*sphere.r)/(1.5);
+                sphere.v.y = -Math.abs(Vector2.DotProduct(projectionFromSphere, sphere.v)/projectionFromSphere.len());
+                sphere.v.rotate(Math.abs(Vector2.phi(wallVector)));
                 System.out.println(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
-                sphere.v.rotate(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
+                //sphere.v.rotate(2*(Vector2.phi(wallVector)+Math.abs(Vector2.phi(sphere.v))));
                 sphere.pos.plus(Vector2.mult(sphere.v, dt));
                 //sphere.v.plus(Vector2.mult(a, dt));
             }

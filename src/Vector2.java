@@ -51,6 +51,9 @@ public class Vector2 {
     public static double DotProduct(Vector2 v1, Vector2 v2){
         return v2.x*v1.x+v2.y*v1.y;
     }
+    public Vector2 CrossProduct(float c){
+        return new Vector2(-c*y, c*x);
+    }
     public double angle(Vector2 v1, Vector2 v2){
         return Math.acos(DotProduct(v1, v2)/(v1.len()*v2.len()));
     }

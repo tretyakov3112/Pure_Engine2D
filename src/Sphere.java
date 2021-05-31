@@ -18,13 +18,13 @@ public class Sphere {
 
     public  Sphere(){
         r = 50;
-        pos = new Vector2(xPos, 200);
+        pos = new Vector2(xPos, 500);
         orientationVector = new Vector2(1,0);
         v = new Vector2(0,0);
         a = new Vector2(0,0);
-        w = 0.01;
+        w = 0.05;
         m = 100;
-        J = 10;
+        J = 0.5*m*r*r;
         phi = 0;
     }
     public Sphere(Vector2 pos, Vector2 v, Vector2 a, Vector2 orientationVector, double r, double w, double m, double J, double phi){
