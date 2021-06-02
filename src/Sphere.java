@@ -57,9 +57,6 @@ public class Sphere {
                 return sphereToWallStartVector;
             }
 
-
-
-
             double t = Vector2.DotProduct(wallVector, sphereToWallStartVector) / Vector2.DotProduct(wallVector, wallVector);
             if (t < 0 || t > 1) {
                 return null;
@@ -100,8 +97,8 @@ public class Sphere {
 
 
     public void update(){
-        //orientationVector.rotate(phi);
-        orientationVector = v.norm();
+        orientationVector.rotate(phi);
+        //orientationVector = v.norm();
 
     }
 
