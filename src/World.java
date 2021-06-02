@@ -1,24 +1,35 @@
+import java.io.IOException;
+import java.util.LinkedList;
+
 public class World {
+    Background background;
     Sphere sphere = new Sphere();
     int wallCount = 100;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 100);
     int currentWallIndex = -1;
+    LinkedList<Booster> boosterList = new LinkedList<>();
 
 
     //Wall testWall;
 
-    public World() {
+    public World() throws IOException {
         addWalls();
+        background = new Background();
+
     }
 
     Vector2[] points = new Vector2[wallCount+1];
 
     public void addWalls() {
         for (int i = 0; i < wallCount+1; i++) {
-            points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (800 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
-            //points[i] = new Vector2((int) (i * 50 * (1 + Math.sqrt(2))), (int) (800));
-            //System.out.println(points[i]);
+            points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (Main.height*0.5 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
+
+        }
+        for (int i = 0; i < (wallCount+1)/10; i++) {
+            Accelerator accelerator = new Accelerator();
+            accelerator.pos = new Vector2(points[10*i].x, points[10*i].y-accelerator.r*2);
+            boosterList.add(accelerator);
         }
         for (int i = 1; i < wallCount+1; i++) {
             walls[i - 1] = new Wall(points[i - 1], points[i], 1);
@@ -35,7 +46,11 @@ public class World {
             walls[i].pos1.x += dx;
             walls[i].pos2.x += dx;
         }
-        //System.out.println(dx);
+        for (Booster booster: boosterList) {
+            booster.pos.x += dx;
+        }
+
+        background.update(dx);
         sphere.pos.x = sphere.xPos;
     }
 
@@ -77,7 +92,7 @@ public class World {
 
     public void update(float dt) {
         Vector2 intersection = null;
-        for (int i = 0; i < wallCount-1; i++) {
+        for (int i = 1; i < wallCount-1; i++) {
             intersection = sphere.checkCollision(walls[i]);
             if (intersection != null){
                Collision(dt, walls[i]);

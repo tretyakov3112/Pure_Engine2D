@@ -15,7 +15,7 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
     long time;
 
 
-    public Panel() {
+    public Panel() throws IOException {
         world = new World();
         this.addMouseListener(this);
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
@@ -30,16 +30,25 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         long time1 = System.currentTimeMillis();
         float dt =  (time1-time) ;
         world.update(dt/1000);
+        //world.background.update();
         world.moveWalls();
-        //System.out.println(dt/1000);
         time = time1;
-
+        world.background.draw(g);
         world.sphere.draw(g);
-        //world.testWall.draw(g);
-        for (int i = 0; i < world.wallCount-1; i++) {
+        for (int i = 1; i < world.wallCount-1; i++) {
             world.walls[i].draw(g);
         }
-
+        Booster toRemove = null;
+        for (Booster booster: world.boosterList) {
+            if (booster.update(world.sphere)){
+                toRemove = booster;
+            } else{
+                booster.draw(g);
+            }
+        }
+        if (toRemove != null) {
+           world.boosterList.remove(toRemove);
+        }
 
     }
 

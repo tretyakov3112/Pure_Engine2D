@@ -14,7 +14,7 @@ public class Sphere {
     double m;
     double J;
     double phi;//угол orientationVector с горизонталью
-    double xPos = 500;
+    double xPos = Main.width/2;
 
     public  Sphere(){
         r = 25;
@@ -97,7 +97,7 @@ public class Sphere {
 
 
     public void update(){
-        orientationVector.rotate(phi);
+        orientationVector.rotate(phi/500);
         //orientationVector = v.norm();
 
     }
