@@ -20,6 +20,5 @@ public class Main {
             frame.repaint();
             Thread.sleep(10);
         }
-
     }
 }

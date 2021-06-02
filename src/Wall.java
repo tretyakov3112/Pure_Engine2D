@@ -16,7 +16,6 @@ public class Wall {
         this.pos1 = pos1;
         this.pos2 = pos2;
         this.k = k;
-
     }
     public void draw(Graphics g){
         xPoint[0] = (int) pos1.x;

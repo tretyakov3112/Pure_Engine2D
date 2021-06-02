@@ -39,16 +39,7 @@ public class Sphere {
         this.phi = phi;
     }
 
-    /*public boolean checkCollision(Wall wall){
-        Vector2 tmp = new Vector2(wall.pos2.x-wall.pos1.x, wall.pos2.y-wall.pos1.y);
-
-        double d = (Math.abs(pos.x/tmp.x-pos.y/tmp.y-(wall.pos1.x/tmp.x-wall.pos1.y/tmp.y)))/Math.sqrt(1/tmp.x*tmp.x+1/tmp.y*tmp.y);
-        if ( (pos.x > wall.pos1.x+tmp.ort().x) && (pos.x < wall.pos2.x+tmp.ort().x) && d<r) {
-            return true;} else {
-            return false;}
-        }*/
     public Vector2 checkCollision(Wall wall){
-
 
             Vector2 wallVector = Vector2.segmentVector(wall.pos1, wall.pos2);
             Vector2 sphereToWallStartVector = Vector2.segmentVector(wall.pos1, pos);
@@ -73,33 +64,9 @@ public class Sphere {
             }
 
     }
-    /*public Vector2 checkCollision1(Wall wall){
-
-        Vector2 wallVector = Vector2.segmentVector(wall.pos1, wall.pos2);
-        Vector2 sphereToWallStartVector = Vector2.segmentVector(wall.pos1, pos);
-
-        double t = Vector2.DotProduct(wallVector, sphereToWallStartVector) / Vector2.DotProduct(wallVector, wallVector);
-        if (t < 0 || t > 1) {
-            return null;
-        }
-
-        Vector2 intersectionVector = wallVector.mult(t);
-        intersectionVector.plus(wall.pos1);
-
-        Vector2 projectionFromSphere = Vector2.segmentVector(pos, intersectionVector);
-        if (projectionFromSphere.len() <= r) {
-            return wallVector;
-        } else {
-            return null;
-        }
-
-    }*/
-
 
     public void update(){
         orientationVector.rotate(phi/500);
-        //orientationVector = v.norm();
-
     }
 
     public void draw(Graphics g){
