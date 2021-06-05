@@ -1,10 +1,10 @@
-public class Accelerator extends Booster {
+public class Stopper extends Booster {
     @Override
     public void boost(Sphere sphere) {
         super.boost(sphere);
-        sphere.v.x += 200;
+        sphere.v = new Vector2(0,0);
     }
-    public Accelerator(Vector2 pos){
+    public Stopper(Vector2 pos){
         super(pos);
         this.pos = pos;
     }

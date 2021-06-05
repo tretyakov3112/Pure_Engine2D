@@ -83,14 +83,14 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED) {
             if (e.getKeyChar() == 'w') {
-                world.sphere.w += 0.01;
+                world.sphere.w += 0.5;
             }
             if (e.getKeyChar() == 's') {
-                world.sphere.w -= 0.01;
+                world.sphere.w -= 0.5;
             }
             if (e.getKeyChar() == ' ') {
                 System.out.println(e.getKeyChar());
-                world.sphere.v.y += -200;
+                world.sphere.v.y += -300;
             }
         }
         return false;

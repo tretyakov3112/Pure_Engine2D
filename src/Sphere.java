@@ -14,11 +14,12 @@ public class Sphere {
     double m;
     double J;
     double phi;//угол orientationVector с горизонталью
-    double xPos = Main.width/2;
+    double xPos2 = Main.width*3/4;
+    double xPos1 = Main.width/4;
 
     public  Sphere(){
-        r = 25;
-        pos = new Vector2(xPos, 500);
+        r = 50;
+        pos = new Vector2(Main.width/2, Main.height/4);
         orientationVector = new Vector2(1,0);
         v = new Vector2(0,0);
         a = new Vector2(0,0);
@@ -66,7 +67,7 @@ public class Sphere {
     }
 
     public void update(){
-        orientationVector.rotate(phi/500);
+        orientationVector.rotate(phi/1000);
     }
 
     public void draw(Graphics g){

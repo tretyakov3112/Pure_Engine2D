@@ -2,8 +2,11 @@ import java.awt.*;
 
 public class Booster {
     Vector2 pos;
-    double r = 25;
+    double r = 50;
     Color color = new Color(0xF60707);
+    public Booster(Vector2 pos){
+        this.pos = pos;
+    }
     public void boost(Sphere sphere){
     }
     public void draw(Graphics g){

@@ -4,9 +4,9 @@ import java.util.LinkedList;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 100;
+    int wallCount = 50;
     Wall[] walls = new Wall[wallCount];
-    Vector2 g = new Vector2(0, 100);
+    Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
 
     public World() throws IOException {
@@ -17,14 +17,29 @@ public class World {
 
     Vector2[] points = new Vector2[wallCount+1];
 
+    public Booster randomBooster(Vector2 pos){
+        int tmp = (int) (Math.random()*3);
+        if (tmp == 0){
+            Accelerator accelerator = new Accelerator(pos);
+            return accelerator;
+        } else if (tmp == 1){
+            Jumper jumper = new Jumper(pos);
+            return jumper;
+        } else if (tmp == 2){
+            Stopper stopper = new Stopper(pos);
+            return stopper;
+        } else {
+            Accelerator accelerator = new Accelerator(pos);
+            return accelerator;
+        }
+    }
+
     public void addWalls() {
         for (int i = 0; i < wallCount+1; i++) {
             points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (Main.height*0.5 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
         }
-        for (int i = 0; i < (wallCount+1)/10; i++) {
-            Accelerator accelerator = new Accelerator();
-            accelerator.pos = new Vector2(points[10*i].x, points[10*i].y-accelerator.r*3);
-            boosterList.add(accelerator);
+        for (int i = 1; i < (wallCount+1)/10 - 1; i++) {
+            boosterList.add(randomBooster(new Vector2(points[10*i].x, Main.height*0.5 - sphere.r * 0.5 * (1 + Math.sqrt(2)) - sphere.r)));
         }
         for (int i = 1; i < wallCount+1; i++) {
             walls[i - 1] = new Wall(points[i - 1], points[i], 1);
@@ -32,17 +47,32 @@ public class World {
     }
 
     public void moveWalls(){
-        double dx = sphere.xPos-sphere.pos.x;
-        for (int i = 0; i < wallCount; i++) {
-            walls[i].pos1.x += dx;
-            walls[i].pos2.x += dx;
-        }
-        for (Booster booster: boosterList) {
-            booster.pos.x += dx;
-        }
+        if (sphere.pos.x >= sphere.xPos2) {
+            double dx = sphere.xPos2 - sphere.pos.x;
+            for (int i = 0; i < wallCount; i++) {
+                walls[i].pos1.x += dx;
+                walls[i].pos2.x += dx;
+            }
+            for (Booster booster : boosterList) {
+                booster.pos.x += dx;
+            }
 
-        background.update(dx);
-        sphere.pos.x = sphere.xPos;
+            background.update(dx);
+            sphere.pos.x = sphere.xPos2;
+        }
+        if (sphere.pos.x <= sphere.xPos1) {
+            double dx = sphere.xPos1 - sphere.pos.x;
+            for (int i = 0; i < wallCount; i++) {
+                walls[i].pos1.x += dx;
+                walls[i].pos2.x += dx;
+            }
+            for (Booster booster : boosterList) {
+                booster.pos.x += dx;
+            }
+
+            background.update(dx);
+            sphere.pos.x = sphere.xPos1;
+        }
     }
 
     public void Collision(float dt, Wall wall){
@@ -77,7 +107,13 @@ public class World {
             }
         }
         sphere.v.plus(Vector2.mult(g, dt));
-        sphere.phi = sphere.phi+sphere.w*dt;
+        if (sphere.w > 5){
+            sphere.w = 5;
+        }
+        if (sphere.w < -5){
+            sphere.w = -5;
+        }
+        sphere.phi += sphere.w*dt;
         sphere.pos.plus(Vector2.mult(sphere.v, dt));
         sphere.update();
     }
