@@ -67,7 +67,7 @@ public class World {
                 walls[i].pos2.x += dx;
             }
             for (Booster booster : boosterList) {
-                booster.pos.x += dx;
+                booster.pos.x += 2*dx;
             }
 
             background.update(dx);
