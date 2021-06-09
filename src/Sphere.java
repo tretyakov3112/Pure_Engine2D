@@ -1,6 +1,12 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.imageio.ImageIO;
 
 
 @Getter @Setter
@@ -16,8 +22,9 @@ public class Sphere {
     double phi;//угол orientationVector с горизонталью
     double xPos2 = Main.width*3/4;
     double xPos1 = Main.width/4;
+    BufferedImage ballImage;
 
-    public  Sphere(){
+    public  Sphere() throws IOException {
         r = 50;
         pos = new Vector2(Main.width/2, Main.height/4);
         orientationVector = new Vector2(1,0);
@@ -27,6 +34,7 @@ public class Sphere {
         m = 100;
         J = 0.5*m*r*r;
         phi = 0;
+        this.ballImage = ImageIO.read(new File("imgs\\ball4.png"));
     }
     public Sphere(Vector2 pos, Vector2 v, Vector2 a, Vector2 orientationVector, double r, double w, double m, double J, double phi){
         this.pos = pos;
@@ -68,14 +76,16 @@ public class Sphere {
 
     public void update(){
         orientationVector.rotate(phi/1000);
+
     }
 
     public void draw(Graphics g){
-        g.setColor(new Color(231, 128, 128));
+        /*g.setColor(new Color(231, 128, 128));
         g.drawOval((int) (pos.x-r), (int)(pos.y-r), (int) (2*r), (int) (2*r));
         g.fillOval((int) (pos.x-r), (int)(pos.y-r), (int) (2*r), (int) (2*r));
         g.setColor(new Color(255, 4, 4));
-        g.drawLine((int) (pos.x), (int) (pos.y), (int) (pos.x + r*orientationVector.x), (int) (pos.y + r*orientationVector.y));
+        g.drawLine((int) (pos.x), (int) (pos.y), (int) (pos.x + r*orientationVector.x), (int) (pos.y + r*orientationVector.y));*/
+        g.drawImage(ballImage, (int) (pos.x-r), (int) (pos.y-r), (int)(2*r), (int) (2*r), null);
     }
 
 }

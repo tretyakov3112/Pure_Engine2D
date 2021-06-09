@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 50;
+    int wallCount = 100;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
@@ -17,7 +17,7 @@ public class World {
 
     Vector2[] points = new Vector2[wallCount+1];
 
-    public Booster randomBooster(Vector2 pos){
+    public Booster randomBooster(Vector2 pos) throws IOException {
         int tmp = (int) (Math.random()*3);
         if (tmp == 0){
             Accelerator accelerator = new Accelerator(pos);
@@ -34,7 +34,7 @@ public class World {
         }
     }
 
-    public void addWalls() {
+    public void addWalls() throws IOException {
         for (int i = 0; i < wallCount+1; i++) {
             points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (Main.height*0.5 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
         }
@@ -54,7 +54,7 @@ public class World {
                 walls[i].pos2.x += dx;
             }
             for (Booster booster : boosterList) {
-                booster.pos.x += dx;
+                booster.pos.x += 2*dx;
             }
 
             background.update(dx);

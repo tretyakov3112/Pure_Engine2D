@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +50,10 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         if (toRemove != null) {
            world.boosterList.remove(toRemove);
         }
+//        AffineTransform tx = AffineTransform.getRotateInstance(world.sphere.phi, world.sphere.pos.x, world.sphere.pos.y);
+//        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+//
+//        g.drawImage(op.filter(world.sphere.ballImage, null), (int) (world.sphere.pos.x-world.sphere.r), (int) (world.sphere.pos.x-world.sphere.r), null);
 
     }
 
