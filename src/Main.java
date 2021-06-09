@@ -20,14 +20,14 @@ public class Main {
         System.out.println("Start...");
 
         new Thread(() -> {
-            Vector2 intersection = null;
+            /*Vector2 intersection = null;
             for (int i = 1; i < panel.world.wallCount-1; i++) {
                 intersection = panel.world.sphere.checkCollision(panel.world.walls[i]);
                 if (intersection != null) {
-                    new MakeSound().playSound("sounds\\collision.wav");
+                    new MakeSound().playSound("sounds\\running.wav");
                 }
-            }
-                //new MakeSound().playSound("sounds\\collision.wav");
+            }*/
+                new MakeSound().playSound("sounds\\running.wav");
                 System.out.println("audio file finished!");
             }).start();
 
