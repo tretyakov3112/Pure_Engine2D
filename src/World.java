@@ -4,7 +4,7 @@ import java.util.LinkedList;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 100;
+    int wallCount = 30;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
@@ -12,7 +12,6 @@ public class World {
     public World() throws IOException {
         addWalls();
         background = new Background();
-
     }
 
     Vector2[] points = new Vector2[wallCount+1];

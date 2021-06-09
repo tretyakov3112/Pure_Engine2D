@@ -68,7 +68,7 @@ public class Sphere {
         return gd.getDefaultConfiguration();
     }
 
-    /*public BufferedImage rotateImage(BufferedImage buffImage, double angle) {
+    public BufferedImage rotateImage(BufferedImage buffImage, double angle) {
         double radian = Math.toRadians(angle);
         double sin = Math.abs(Math.sin(radian));
         double cos = Math.abs(Math.cos(radian));
@@ -86,7 +86,7 @@ public class Sphere {
         graphics.drawImage(buffImage, 0, 0,null);
         graphics.dispose();
         return rotatedImage;
-    }*/
+    }
 
     public Vector2 checkCollision(Wall wall){
 
