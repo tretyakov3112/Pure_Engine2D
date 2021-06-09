@@ -52,8 +52,7 @@ public class Panel extends JPanel implements MouseListener, KeyEventDispatcher {
         }
 //        AffineTransform tx = AffineTransform.getRotateInstance(world.sphere.phi, world.sphere.pos.x, world.sphere.pos.y);
 //        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-//
-//        g.drawImage(op.filter(world.sphere.ballImage, null), (int) (world.sphere.pos.x-world.sphere.r), (int) (world.sphere.pos.x-world.sphere.r), null);
+//        g.drawImage(op.filter(world.sphere.ballImage, null), (int) (world.sphere.pos.x-world.sphere.r), (int) (world.sphere.pos.x-world.sphere.r), (int)(2*world.sphere.r), (int) (2*world.sphere.r), null);
 
     }
 
