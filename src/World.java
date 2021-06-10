@@ -1,10 +1,11 @@
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 30;
+    int wallCount = 200;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
@@ -17,7 +18,9 @@ public class World {
     Vector2[] points = new Vector2[wallCount+1];
 
     public Booster randomBooster(Vector2 pos) throws IOException {
-        int tmp = (int) (Math.random()*3);
+        Random random = new Random(System.currentTimeMillis());
+        int tmp = random.nextInt(3);
+
         if (tmp == 0){
             Accelerator accelerator = new Accelerator(pos);
             return accelerator;

@@ -24,6 +24,19 @@ public class Booster {
     }
     public boolean update(Sphere sphere){
         if (Vector2.segmentVector(sphere.pos, pos).len()<= sphere.r+r){
+            if (getClass() == Accelerator.class) {
+                new Thread(() -> {
+                    new MakeSound().playSound("sounds\\accelerate.wav");
+                }).start();
+            } else if (getClass() == Jumper.class) {
+                new Thread(() -> {
+                    new MakeSound().playSound("sounds\\jump.wav");
+                }).start();
+            } else if (getClass() == Stopper.class) {
+                new Thread(() -> {
+                    new MakeSound().playSound("sounds\\stop.wav");
+                }).start();
+            }
             boost(sphere);
             return true;
         }

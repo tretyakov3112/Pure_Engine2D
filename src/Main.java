@@ -31,6 +31,25 @@ public class Main {
                 }
             }
 
+            /*for (Booster booster : panel.world.boosterList) {
+                System.out.println(Vector2.segmentVector(panel.world.sphere.pos, booster.pos).len()<= panel.world.sphere.r + booster.r);
+                if (Vector2.segmentVector(panel.world.sphere.pos, booster.pos).len() <= panel.world.sphere.r + booster.r) {
+                    if (booster.getClass() == Accelerator.class) {
+                        new Thread(() -> {
+                            new MakeSound().playSound("sounds\\accelerate.wav");
+                        }).start();
+                    } else if (booster.getClass() == Jumper.class) {
+                        new Thread(() -> {
+                            new MakeSound().playSound("sounds\\jump.wav");
+                        }).start();
+                    } else if (booster.getClass() == Stopper.class) {
+                        new Thread(() -> {
+                            new MakeSound().playSound("sounds\\stop.wav");
+                        }).start();
+                    }
+                }
+            }*/
+
             if (panel.world.sphere.pos.y > Main.height){
                 new Thread(() -> {
                     new MakeSound().playSound("sounds\\dimon.wav");

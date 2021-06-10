@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class Sphere {
         this.phi = phi;
     }
 
-    public static BufferedImage rotate(BufferedImage image, double angle) {
+    /*public static BufferedImage rotate(BufferedImage image, double angle) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int w = image.getWidth(), h = image.getHeight();
         int neww = (int)Math.floor(w*cos+h*sin), newh = (int) Math.floor(h * cos + w * sin);
@@ -86,7 +87,7 @@ public class Sphere {
         graphics.drawImage(buffImage, 0, 0,null);
         graphics.dispose();
         return rotatedImage;
-    }
+    }*/
 
     public Vector2 checkCollision(Wall wall){
 
@@ -116,7 +117,7 @@ public class Sphere {
 
     public void update(){
         orientationVector.rotate(phi/1000);
-        ballImage = rotate(ballImage, phi/1000);
+
     }
 
     public void draw(Graphics g){
@@ -125,7 +126,17 @@ public class Sphere {
         g.fillOval((int) (pos.x-r), (int)(pos.y-r), (int) (2*r), (int) (2*r));
         g.setColor(new Color(255, 4, 4));
         g.drawLine((int) (pos.x), (int) (pos.y), (int) (pos.x + r*orientationVector.x), (int) (pos.y + r*orientationVector.y));*/
-        g.drawImage(ballImage, (int) (pos.x-r), (int) (pos.y-r), (int)(2*r), (int) (2*r), null);
+        //g.drawImage(ballImage, (int) (pos.x-r), (int) (pos.y-r), (int)(2*r), (int) (2*r), null);
+        Graphics2D g2d = (Graphics2D) g;
+        AffineTransform backup = g2d.getTransform();
+        AffineTransform tx = AffineTransform.getRotateInstance(phi, pos.x, pos.y);
+        g2d.setTransform(tx);
+
+        g2d.drawImage(ballImage, (int) (pos.x-r-1), (int) (pos.y-r-1),
+                (int) (2*r + 2),
+                (int) (2*r + 2), null);
+
+        g2d.setTransform(backup);
     }
 
 }
