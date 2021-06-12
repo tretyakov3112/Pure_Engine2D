@@ -17,9 +17,9 @@ public class Background {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(backImage,(int) XMove,0,null);
-        g.drawImage(backImage,(int) XMove1,0,null);
-        g.drawImage(backImage,(int) XMove2,0,null);
+        g.drawImage(backImage,(int) XMove,0, Main.width, Main.height,null);
+        g.drawImage(backImage,(int) XMove1,0,Main.width, Main.height,null);
+        g.drawImage(backImage,(int) XMove2,0,Main.width, Main.height,null);
 
     }
     public void update(double dx) {

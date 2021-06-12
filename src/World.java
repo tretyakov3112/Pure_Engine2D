@@ -5,7 +5,7 @@ import java.util.Random;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 200;
+    int wallCount = 20;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
@@ -14,8 +14,6 @@ public class World {
         addWalls();
         background = new Background();
     }
-
-    Vector2[] points = new Vector2[wallCount+1];
 
     public Booster randomBooster(Vector2 pos) throws IOException {
         Random random = new Random(System.currentTimeMillis());
@@ -36,12 +34,13 @@ public class World {
         }
     }
 
+    Vector2[] points = new Vector2[wallCount+1];
     public void addWalls() throws IOException {
         for (int i = 0; i < wallCount+1; i++) {
-            points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (Main.height*0.5 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
+            points[i] = new Vector2( (i * sphere.r * (1 + Math.sqrt(2))),  (Main.height*0.8 + (Math.random() - 0.5) * 2 * sphere.r * 0.5 * (1 + Math.sqrt(2))));
         }
         for (int i = 1; i < (wallCount+1)/10 - 1; i++) {
-            boosterList.add(randomBooster(new Vector2(points[10*i].x, Main.height*0.5 - sphere.r * 0.5 * (1 + Math.sqrt(2)) - sphere.r)));
+            boosterList.add(randomBooster(new Vector2(points[10*i].x, Main.height*0.8 - sphere.r * 0.5 * (1 + Math.sqrt(2)) - sphere.r)));
         }
         for (int i = 1; i < wallCount+1; i++) {
             walls[i - 1] = new Wall(points[i - 1], points[i], 1);
@@ -100,6 +99,7 @@ public class World {
         sphere.pos.plus(Vector2.mult(sphere.v, dt).sum(Vector2.mult(g, dt*dt*0.5)));
     }
 
+
     public void update(float dt) {
         Vector2 intersection = null;
         for (int i = 1; i < wallCount-1; i++) {
@@ -117,6 +117,6 @@ public class World {
         }
         sphere.phi += sphere.w*dt;
         sphere.pos.plus(Vector2.mult(sphere.v, dt));
-        sphere.update();
+
     }
 }
