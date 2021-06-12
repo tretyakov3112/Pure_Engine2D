@@ -5,7 +5,7 @@ import java.util.Random;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 20;
+    int wallCount = 100;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 300);
     LinkedList<Booster> boosterList = new LinkedList<>();
