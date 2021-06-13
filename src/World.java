@@ -5,9 +5,9 @@ import java.util.Random;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 100;
+    int wallCount = 20;
     Wall[] walls = new Wall[wallCount];
-    Vector2 g = new Vector2(0, 300);
+    Vector2 g = new Vector2(0, 500);
     LinkedList<Booster> boosterList = new LinkedList<>();
 
     public World() throws IOException {

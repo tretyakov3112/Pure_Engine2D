@@ -16,10 +16,14 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     BufferedImage loseMenu;
     BufferedImage pauseMenu;
     BufferedImage mainMenu;
+    BufferedImage zakat;
     boolean mousepressed = false;
     int mouseX = 0;
     int mouseY = 0;
     long time1 = System.currentTimeMillis();
+    private Font f1 = new Font("TimesRoman", Font.BOLD, 20),
+            f2 = new Font("Courier", Font.ITALIC, 30),
+            f3 = new Font("Arial", Font.BOLD + Font.ITALIC, 16);
 
 
 
@@ -30,6 +34,7 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
         this.loseMenu= ImageIO.read(new File("imgs\\loseMenu.png"));
         this.pauseMenu= ImageIO.read(new File("imgs\\pauseMenu.png"));
         this.mainMenu= ImageIO.read(new File("imgs\\mainMenu.png"));
+        this.zakat= ImageIO.read(new File("imgs\\zakat.png"));
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(this);
         addMouseListener(this);
@@ -39,7 +44,7 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
 
     @Override
     public void paintComponent(Graphics g) {
-        System.out.println((time-time1)/1000);
+        //System.out.println((time-time1)/1000);
         long tmp = (time-time1)/1000;
         boolean shouldPlay = false;
         shouldPlay = mousepressed && (mouseX>442*1.5 && mouseX<582*1.5) && (mouseY>209*1.5 && mouseY<250*1.5);
@@ -68,27 +73,37 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
             world.boosterList.remove(toRemove);
         }
 
-        if (world.sphere.pos.y > Main.height && world.sphere.pos.x <= world.sphere.xPos1) {
-            g.drawImage(loseMenu, 0, 0, Main.width, Main.height, null);
-        }
-
-        if (world.sphere.pos.y > Main.height && world.sphere.pos.x >= world.sphere.xPos2) {
-            g.drawImage(winMenu, 0, 0, Main.width, Main.height, null);
-        }
-        System.out.println(mousepressed);
         g.setColor(new Color(0));
-        g.drawString("TIME: "+tmp, 50,50);
 
+        g.setFont(f2);
+        g.drawString("TIME: "+tmp, 50,50);
+        if (world.sphere.pos.y > Main.height && world.sphere.pos.x <= world.sphere.xPos1) {
+            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
+            g.setFont(f2);
+            g.setColor(new Color(0));
+            g.drawString("YOU LOSE!", Main.width/2, (int) (Main.height*0.2));
+            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
+        }
+        System.out.println(f1.getSize());
+        if (world.sphere.pos.y > Main.height && world.sphere.pos.x >= world.sphere.xPos2) {
+            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
+            g.setFont(f2);
+            g.setColor(new Color(0));
+
+            g.drawString("YOU WIN!", Main.width/2, (int) (Main.height*0.2));
+            g.drawString("YOUR RECORD: "+tmp, Main.width/2, (int) (Main.height*0.35));
+            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
+        }
     }
 
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent e) {
         if (e.getID() == KeyEvent.KEY_PRESSED) {
-            if (e.getKeyChar() == 'w' || e.getKeyChar() == 'ц') {
+            if (e.getKeyChar() == 'w' || e.getKeyChar() == 'ц' || e.getKeyChar() == 'W' || e.getKeyChar() == 'Ц') {
                 world.sphere.w += 0.5;
             }
-            if (e.getKeyChar() == 's' || e.getKeyChar() == 'ы') {
+            if (e.getKeyChar() == 's' || e.getKeyChar() == 'ы' || e.getKeyChar() == 'S' || e.getKeyChar() == 'Ы') {
                 world.sphere.w -= 0.5;
             }
             if (e.getKeyChar() == ' ') {
