@@ -12,10 +12,6 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     public World world;
     long time;
     BufferedImage pauseImage;
-    BufferedImage winMenu;
-    BufferedImage loseMenu;
-    BufferedImage pauseMenu;
-    BufferedImage mainMenu;
     BufferedImage zakat;
     boolean mousepressed = false;
     boolean shouldPlay = false;
@@ -24,6 +20,8 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     int mouseX = 0;
     int mouseY = 0;
     long time0 = 0;
+    long totalTime;
+    Thread soundThread;
     private Font f1 = new Font("TimesRoman", Font.BOLD, 20),
             f2 = new Font("Courier", Font.ITALIC, 30),
             f3 = new Font("Arial", Font.BOLD + Font.ITALIC, 16);
@@ -33,10 +31,6 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     public Panel() throws IOException {
         world = new World();
         this.pauseImage= ImageIO.read(new File("imgs\\pause4.png"));
-        this.winMenu= ImageIO.read(new File("imgs\\winMenu.png"));
-        this.loseMenu= ImageIO.read(new File("imgs\\loseMenu.png"));
-        this.pauseMenu= ImageIO.read(new File("imgs\\pauseMenu.png"));
-        this.mainMenu= ImageIO.read(new File("imgs\\mainMenu.png"));
         this.zakat= ImageIO.read(new File("imgs\\zakat.png"));
         KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
         manager.addKeyEventDispatcher(this);
@@ -48,7 +42,7 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         //System.out.println((time-time1)/1000);
-        long tmp = (time-time0)/1000;
+
         long time1 = System.currentTimeMillis();
         float dt = (time1 - time);
         time = time1;
@@ -64,43 +58,63 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
             }
             return;
         }
-        //System.out.println(shouldPlay);
 
-        //shouldPause = mousepressed && (mouseX>Main.width/2 && mouseX<Main.width/2 + 50) && (mouseY>Main.height/20 && mouseY<Main.height/20+50);
         if (!isFinished) {
+            totalTime = (time-time0)/1000;
             playLogic(g, dt);
             g.setColor(new Color(0));
             g.setFont(f2);
-            g.drawString("TIME: "+tmp, 50,50);
+            g.drawString("TIME: "+totalTime, 50,50);
             shouldPlay = !( mousepressed && (mouseX>Main.width/2 && mouseX<Main.width/2 + 50) && (mouseY>Main.height/20 && mouseY<Main.height/20+50));
             if (world.sphere.pos.y > Main.height && world.sphere.pos.x <= world.sphere.xPos1) {
                 isFinished = true;
                 isWon = false;
+                soundThread = new Thread(() -> {
+                    new MakeSound().playSound("sounds\\dimon.wav");
+                });
+                soundThread.start();
             }
             if (world.sphere.pos.y > Main.height && world.sphere.pos.x >= world.sphere.xPos2) {
                 isFinished = true;
                 isWon = true;
+                soundThread = new Thread(() -> {
+                    new MakeSound().playSound("sounds\\win.wav");
+                });
+                soundThread.start();
             }
         } else if (isWon){
             g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
             g.setFont(f2);
             g.setColor(new Color(0));
-
             g.drawString("YOU WIN!", Main.width/2, (int) (Main.height*0.2));
-            g.drawString("YOUR SCORE: "+tmp, Main.width/2, (int) (Main.height*0.35));
+            g.drawString("YOUR SCORE: "+totalTime, Main.width/2, (int) (Main.height*0.35));
             g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
+            checkPlayAgain();
 
-            System.out.println(isWon);
         } else {
             g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
             g.setFont(f2);
             g.setColor(new Color(0));
             g.drawString("YOU LOSE!", Main.width/2, (int) (Main.height*0.2));
             g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
-            System.out.println(isWon);
+            checkPlayAgain();
         }
 
 
+    }
+
+    public void checkPlayAgain(){
+        if (mousepressed && (mouseX > Main.width/2 && mouseX < Main.width/2+210) && (mouseY > Main.height/2-40 && mouseY < Main.height/2)){
+            isFinished = false;
+            try {
+                world = new World();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            soundThread.stop();
+            time0 = System.currentTimeMillis();
+            time = time0;
+        }
     }
 
     public void playLogic(Graphics g, float dt){

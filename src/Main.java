@@ -16,30 +16,6 @@ public class Main {
 
 
         while (true) {
-            Vector2 intersection = null;
-
-            for (int i = 1; i < panel.world.wallCount - 1; i++) {
-                intersection = panel.world.sphere.checkCollision(panel.world.walls[i]);
-                if (intersection != null) {
-                    new Thread(() -> {
-                        new MakeSound().playSound("sounds\\collision.wav");
-                    }).start();
-                }
-            }
-
-            if (panel.world.sphere.pos.y > Main.height && panel.world.sphere.pos.x <= panel.world.sphere.xPos1){
-                new Thread(() -> {
-                    new MakeSound().playSound("sounds\\dimon.wav");
-                }).start();
-                break;
-            }
-
-            if (panel.world.sphere.pos.y > Main.height && panel.world.sphere.pos.x >= panel.world.sphere.xPos2){
-                new Thread(() -> {
-                    new MakeSound().playSound("sounds\\win.wav");
-                }).start();
-                break;
-            }
             frame.repaint();
             Thread.sleep(10);
         }

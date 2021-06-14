@@ -5,7 +5,7 @@ import java.util.Random;
 public class World {
     Background background;
     Sphere sphere = new Sphere();
-    int wallCount = 20;
+    int wallCount = 100;
     Wall[] walls = new Wall[wallCount];
     Vector2 g = new Vector2(0, 500);
     LinkedList<Booster> boosterList = new LinkedList<>();
@@ -105,6 +105,9 @@ public class World {
         for (int i = 1; i < wallCount-1; i++) {
             intersection = sphere.checkCollision(walls[i]);
             if (intersection != null){
+                new Thread(() -> {
+                    new MakeSound().playSound("sounds\\collision.wav");
+                }).start();
                Collision(dt, walls[i]);
             }
         }
