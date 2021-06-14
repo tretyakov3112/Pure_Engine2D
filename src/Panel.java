@@ -18,9 +18,12 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     BufferedImage mainMenu;
     BufferedImage zakat;
     boolean mousepressed = false;
+    boolean shouldPlay = false;
+    boolean isFinished = false;
+    boolean isWon;
     int mouseX = 0;
     int mouseY = 0;
-    long time1 = System.currentTimeMillis();
+    long time0 = 0;
     private Font f1 = new Font("TimesRoman", Font.BOLD, 20),
             f2 = new Font("Courier", Font.ITALIC, 30),
             f3 = new Font("Arial", Font.BOLD + Font.ITALIC, 16);
@@ -45,16 +48,65 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
     @Override
     public void paintComponent(Graphics g) {
         //System.out.println((time-time1)/1000);
-        long tmp = (time-time1)/1000;
-        boolean shouldPlay = false;
-        shouldPlay = mousepressed && (mouseX>442*1.5 && mouseX<582*1.5) && (mouseY>209*1.5 && mouseY<250*1.5);
-        boolean shouldPause = false;
-        shouldPause = mousepressed && (mouseX>Main.width/2 && mouseX<Main.width/2 + 50) && (mouseY>Main.height/20 && mouseY<Main.height/20+50);
+        long tmp = (time-time0)/1000;
         long time1 = System.currentTimeMillis();
         float dt = (time1 - time);
+        time = time1;
+
+        if (!shouldPlay) {
+            g.drawImage(zakat,0,0,Main.width, Main.height, null);
+            g.setFont(f2);
+            g.setColor(new Color(0));
+            g.drawString("PLAY", Main.width/2, Main.height/2);
+            shouldPlay = mousepressed && (mouseX > Main.width/2 && mouseX < Main.width/2+210) && (mouseY > Main.height/2-40 && mouseY < Main.height/2);
+            if (shouldPlay && time0 ==0){
+                time0 = System.currentTimeMillis();
+            }
+            return;
+        }
+        //System.out.println(shouldPlay);
+
+        //shouldPause = mousepressed && (mouseX>Main.width/2 && mouseX<Main.width/2 + 50) && (mouseY>Main.height/20 && mouseY<Main.height/20+50);
+        if (!isFinished) {
+            playLogic(g, dt);
+            g.setColor(new Color(0));
+            g.setFont(f2);
+            g.drawString("TIME: "+tmp, 50,50);
+            shouldPlay = !( mousepressed && (mouseX>Main.width/2 && mouseX<Main.width/2 + 50) && (mouseY>Main.height/20 && mouseY<Main.height/20+50));
+            if (world.sphere.pos.y > Main.height && world.sphere.pos.x <= world.sphere.xPos1) {
+                isFinished = true;
+                isWon = false;
+            }
+            if (world.sphere.pos.y > Main.height && world.sphere.pos.x >= world.sphere.xPos2) {
+                isFinished = true;
+                isWon = true;
+            }
+        } else if (isWon){
+            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
+            g.setFont(f2);
+            g.setColor(new Color(0));
+
+            g.drawString("YOU WIN!", Main.width/2, (int) (Main.height*0.2));
+            g.drawString("YOUR SCORE: "+tmp, Main.width/2, (int) (Main.height*0.35));
+            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
+
+            System.out.println(isWon);
+        } else {
+            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
+            g.setFont(f2);
+            g.setColor(new Color(0));
+            g.drawString("YOU LOSE!", Main.width/2, (int) (Main.height*0.2));
+            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
+            System.out.println(isWon);
+        }
+
+
+    }
+
+    public void playLogic(Graphics g, float dt){
+
         world.update(dt / 1000);
         world.moveWalls();
-        time = time1;
         world.background.draw(g);
         world.sphere.draw(g);
         g.drawImage(pauseImage, Main.width/2, Main.height/20, 50, 50, null);
@@ -71,28 +123,6 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
         }
         if (toRemove != null) {
             world.boosterList.remove(toRemove);
-        }
-
-        g.setColor(new Color(0));
-
-        g.setFont(f2);
-        g.drawString("TIME: "+tmp, 50,50);
-        if (world.sphere.pos.y > Main.height && world.sphere.pos.x <= world.sphere.xPos1) {
-            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
-            g.setFont(f2);
-            g.setColor(new Color(0));
-            g.drawString("YOU LOSE!", Main.width/2, (int) (Main.height*0.2));
-            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
-        }
-        System.out.println(f1.getSize());
-        if (world.sphere.pos.y > Main.height && world.sphere.pos.x >= world.sphere.xPos2) {
-            g.drawImage(zakat, 0, 0, Main.width, Main.height, null);
-            g.setFont(f2);
-            g.setColor(new Color(0));
-
-            g.drawString("YOU WIN!", Main.width/2, (int) (Main.height*0.2));
-            g.drawString("YOUR RECORD: "+tmp, Main.width/2, (int) (Main.height*0.35));
-            g.drawString("PLAY AGAIN", Main.width/2, (int) (Main.height*0.5));
         }
     }
 
