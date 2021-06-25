@@ -70,7 +70,7 @@ public class Panel extends JPanel implements KeyEventDispatcher, MouseListener {
                 isFinished = true;
                 isWon = false;
                 soundThread = new Thread(() -> {
-                    new MakeSound().playSound("sounds\\dimon.wav");
+                    new MakeSound().playSound("sounds\\lose.wav");
                 });
                 soundThread.start();
             }
